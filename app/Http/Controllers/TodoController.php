@@ -13,6 +13,12 @@ class TodoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function __construct(){
+
+        $this->middleware('auth')->except(['insert', 'show', 'index']);
+
+    }
+
     public function index(){
 
         $todos = Todo::latest()->get();
@@ -24,15 +30,9 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $todo = Todo::create([
-            "title" => $request->title,
-            "description" => $request->description,
-            "user_id" => Auth()->id()
-        ]);
-
-        return redirect("todos/$todo->id");
+        return view('todos.create');
     }
 
     public function insert(){
@@ -52,6 +52,13 @@ class TodoController extends Controller
     public function store(Request $request)
     {
         //
+        $todo = Todo::create([
+            "title" => $request->title,
+            "description" => $request->description,
+            "user_id" => Auth()->id()
+        ]);
+
+        return redirect("todos/$todo->id");
     }
 
     /**
@@ -65,6 +72,7 @@ class TodoController extends Controller
         $todo = Todo::where('id', $id)->first();
 
         return view('todos.show', compact('todo'));
+
     }
 
     /**
