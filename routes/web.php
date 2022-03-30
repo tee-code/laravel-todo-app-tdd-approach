@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Todo;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +33,21 @@ Route::get('/todos/{id}', function ($id){
     return view('todos.show', compact('todo'));
 });
 
+Route::post('/todos/create', function (\Illuminate\Http\Request $request){
+
+    $todo = Todo::create([
+        "title" => $request->title,
+        "description" => $request->description,
+        "user_id" => Auth()->id()
+    ]);
+
+    return redirect("todos/$todo->id");
+
+});
+
 Route::post('/todos', function (){
 
-    \App\Models\Todo::create(request(['title', 'description']));
+    \App\Models\Todo::create(request(['title', 'description', 'user_id']));
 
     return redirect('/');
 

@@ -5,6 +5,7 @@ namespace Database\Factories;
 
 
 use Faker\Factory;
+use App\Models\User;
 
 class TodoFactory extends \Illuminate\Database\Eloquent\Factories\Factory
 {
@@ -18,7 +19,8 @@ class TodoFactory extends \Illuminate\Database\Eloquent\Factories\Factory
 
         return [
             "title" => $this->faker->unique()->sentence(20),
-            "description" => $this->faker->text()
+            "description" => $this->faker->text(),
+            "user_id" => User::factory()->create()->id
         ];
     }
 }
