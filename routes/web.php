@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Todo;
+use App\Http\Controllers\TodoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,44 +15,17 @@ use App\Models\Todo;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function(){
     return view('welcome');
 });
 
-Route::get('/todos', function(){
+Route::get('/todos', [TodoController::class, 'index']);
 
-   $todos = \App\Models\Todo::latest()->get();
+Route::get('/todos/{id}', [TodoController::class, 'show']);
 
-   return view('todos.index', compact('todos'));
+Route::post('/todos/create', [TodoController::class, 'create']);
 
-});
-
-Route::get('/todos/{id}', function ($id){
-
-    $todo = \App\Models\Todo::where('id', $id)->first();
-
-    return view('todos.show', compact('todo'));
-});
-
-Route::post('/todos/create', function (\Illuminate\Http\Request $request){
-
-    $todo = Todo::create([
-        "title" => $request->title,
-        "description" => $request->description,
-        "user_id" => Auth()->id()
-    ]);
-
-    return redirect("todos/$todo->id");
-
-});
-
-Route::post('/todos', function (){
-
-    \App\Models\Todo::create(request(['title', 'description', 'user_id']));
-
-    return redirect('/');
-
-});
+Route::post('/todos', [TodoController::class, 'insert']);
 
 Auth::routes();
 

@@ -65,6 +65,19 @@ class TodosTest extends TestCase
         $response->assertStatus(302);
     }
 
+//    public function test_unauthorized_user_cannot_create_todo()
+//    {
+//        //Given a task object
+//        $todo = Todo::factory()->make()->toArray();
+//        //When an unauthorized user send post request to the endpoint
+//        $response = $this->post("/todos/create", $todo);
+//        //It should be redirect back to /login
+//
+//        $response->assertRedirect("/login")
+//            ->assertStatus(302);
+//
+//    }
+
 
     /**
      * A basic feature test example.
