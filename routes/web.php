@@ -23,11 +23,15 @@ Route::get('/todos', [TodoController::class, 'index']);
 
 Route::get('/todos/create', [TodoController::class, 'create']);
 
+Route::get('/todos/edit/{id}', [TodoController::class, 'edit']);
+
 Route::get('/todos/{id}', [TodoController::class, 'show']);
 
 Route::post('/todos/create', [TodoController::class, 'store']);
 
 Route::post('/todos', [TodoController::class, 'insert']);
+
+Route::put('/todos/{todo}', [TodoController::class, 'update']);
 
 Auth::routes();
 

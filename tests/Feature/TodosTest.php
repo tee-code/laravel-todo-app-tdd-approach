@@ -6,6 +6,7 @@ use App\Models\Todo;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class TodosTest extends TestCase
@@ -102,6 +103,36 @@ class TodosTest extends TestCase
         $this->post('/todos/create', $todo)->assertSessionHasErrors('description');
 
     }
+
+    public function test_authorized_user_can_update_a_todo()
+    {
+        $this->actingAs(User::factory()->create());
+
+        $todo = Todo::factory()->create(['user_id' => Auth::id()]);
+
+        $todo->title = "Updated Todo Title";
+
+        $this->put("/todos/$todo->id", $todo->toArray());
+
+        $this->assertDatabaseHas('todos', ['id' => $todo->id, 'title' => 'Updated Todo Title']);
+
+    }
+
+    public function test_unauthorized_user_can_not_update_a_todo()
+    {
+
+        $this->actingAs(User::factory()->create());
+
+        $todo = Todo::factory()->create();
+
+        $todo->title = "Unauthroized Action";
+
+        $this->put("/todos/$todo->id", $todo->toArray())
+            ->assertStatus(403);
+
+    }
+
+
 
 
     /**

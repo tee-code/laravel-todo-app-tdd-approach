@@ -98,9 +98,14 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Todo $todo)
     {
         //
+
+        $todo->update($request->all());
+
+        return redirect("/todos/$todo->id");
+
     }
 
     /**
