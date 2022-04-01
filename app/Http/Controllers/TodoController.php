@@ -100,7 +100,7 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        //
+        $this->authorize('update', $todo);
 
         $todo->update($request->all());
 
