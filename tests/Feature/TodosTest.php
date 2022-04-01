@@ -77,6 +77,32 @@ class TodosTest extends TestCase
 
     }
 
+    public function test_a_todo_requires_a_title()
+    {
+
+        $this->actingAs(User::factory()->create());
+
+        $todo = Todo::factory()->make([
+            'title'=> null
+        ])->toArray();
+
+        $this->post('/todos/create', $todo)->assertSessionHasErrors('title');
+
+    }
+
+    public function test_a_todo_requires_a_description()
+    {
+
+        $this->actingAs(User::factory()->create());
+
+        $todo = Todo::factory()->make([
+            'description'=> null
+        ])->toArray();
+
+        $this->post('/todos/create', $todo)->assertSessionHasErrors('description');
+
+    }
+
 
     /**
      * A basic feature test example.
