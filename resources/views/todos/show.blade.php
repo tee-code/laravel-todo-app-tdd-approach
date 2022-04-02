@@ -13,7 +13,21 @@
                         {{$todo->description}}
                     </div>
                 </div>
+                <div class="card-footer">
+                    @can('update', $todo)
+                        <a href="/tasks/{{$todo->id}}/edit" class="btn btn-warning">Edit Todo</a>
+                    @endcan
+
+                        @can('delete', $todo)
+                            <form style="float:right" method="POST" action="/todo/{{$todo->id}}">
+                                {{csrf_field()}}
+                                {{method_field('DELETE')}}
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        @endcan
+                </div>
             </div>
         </div>
+
     </div>
 @endsection

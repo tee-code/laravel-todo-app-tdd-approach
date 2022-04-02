@@ -132,6 +132,36 @@ class TodosTest extends TestCase
 
     }
 
+    public function test_authorized_user_can_delete_todo()
+    {
+
+        $this->withoutExceptionHandling();
+
+        $this->actingAs(User::factory()->create());
+
+        $todo = Todo::factory()->create(['user_id' => Auth()->id()]);
+
+        $response = $this->delete("/todos/$todo->id");
+
+        $this->assertDatabaseMissing("todos", ['id' => $todo->id]);
+
+        $response->assertStatus(302)
+                    ->assertRedirect("/todos");
+
+    }
+
+    public function test_unauthorized_user_cannot_delete_todo()
+    {
+
+        $this->actingAs(User::factory()->create());
+
+        $todo = Todo::factory()->create();
+
+        $this->delete("/todos/$todo->id")
+                ->assertStatus(403);
+
+
+    }
 
 
 
