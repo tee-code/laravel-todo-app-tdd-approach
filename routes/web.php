@@ -25,7 +25,7 @@ Route::get('/todos/create', [TodoController::class, 'create']);
 
 Route::get('/todos/{todo}/edit', [TodoController::class, 'edit']);
 
-Route::get('/todos/{id}', [TodoController::class, 'show']);
+Route::get('/todos/{id}', [TodoController::class, 'show'])->name('todos.show');
 
 Route::post('/todos/create', [TodoController::class, 'store']);
 
