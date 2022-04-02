@@ -4,10 +4,15 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><strong>Update Todo</strong></div>
+                    <div class="card-header">
+                        <strong>
+                            <a href="/todos/{{ $todo->id }}" class="bi-arrow-bar-left"></a>
+                            Update Todo
+                        </strong>
+                    </div>
 
                     <div class="card-body">
-                        <form method="POST" action="/tasks/{{$todo->id}}">
+                        <form method="POST" action="/todos/{{$todo->id}}">
                             {{csrf_field()}}
                             {{method_field('PUT')}}
                             <div class="form-group">

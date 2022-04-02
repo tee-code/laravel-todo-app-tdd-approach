@@ -65,7 +65,7 @@ class TodoPolicy
      */
     public function delete(User $user, Todo $todo)
     {
-        $todo->user_id == $user->id;
+        return $todo->user_id == $user->id;
 
     }
 
