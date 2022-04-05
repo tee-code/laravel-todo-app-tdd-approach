@@ -64,6 +64,7 @@ class TodoController extends Controller
         ]);
 
         return redirect("todos/$todo->id");
+
     }
 
     /**
@@ -101,6 +102,11 @@ class TodoController extends Controller
     public function update(Request $request, Todo $todo)
     {
         $this->authorize('update', $todo);
+
+        $request->validate([
+            'title'=> 'required',
+            'description' => 'required'
+        ]);
 
         $todo->update($request->all());
 
